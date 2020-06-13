@@ -1,3 +1,33 @@
+/**
+ * # Terraform to create Arq backup bucket
+ *
+ * This module sets up an AWS S3 bucket for use as a storage location for Arq backup
+ *
+ * It sets up the following AWS resources
+ * * An S3 bucket for the backups
+ * * Bucket encryption
+ * * A user with login credentials
+ * * Required IAM policy and role for that user to manage the backup bucket
+ *
+ * # Usage
+ *
+ * ```hcl
+ * module "arc_backup" {
+ *   source "..."
+ *   backup_bucket_name = "my_arq_backup"
+ * }
+ * ```
+ * # Author
+ *
+ * Eric Berg <eberg@bergbrains.com>
+ *
+ * You can find this module at [bergbrains s3-mac-backup repo](https://github.com/bergbrains/arq-aws-s3-backup)
+ *
+ * # API Specs
+
+*/
+
+
 locals {
   name = "arq-backup"
   tags = {
@@ -29,7 +59,7 @@ module "backup_bucket" {
   server_side_encryption_configuration = {
     rule = {
       apply_server_side_encryption_by_default = {
-        kms_master_key_id = aws_kms_key.objects.arn
+        kms_master_key_id = aws_kms_key.objects.id
         sse_algorithm     = "aws:kms"
       }
     }
@@ -47,23 +77,23 @@ resource "aws_iam_user" "backup_user" {
   tags = local.tags
 }
 
-# data "aws_iam_policy_document" "backup_user_policy" {
-#   statement {
-#     actions = [
-#       "s3:*"
-#     ]
-#     sid    = "GrantBackupUserPermissions"
-#     effect = "Allow"
+ data "aws_iam_policy_document" "backup_user_policy" {
+   statement {
+     actions = [
+       "s3:*"
+     ]
+     sid    = "GrantBackupUserPermissions"
+     effect = "Allow"
 
-#     resources = [
-#       "${module.backup_bucket.this_s3_bucket_arn}/*"
-#     ]
-#   }
-# }
+     resources = [
+       "${module.backup_bucket.this_s3_bucket_id}/*"
+     ]
+   }
+ }
 
-# data "aws_iam_policy" "AdministratorAccess" {
-#     arn = "arn:aws:iam::aws:policy/AdministratorAccess"
-# }
+ data "aws_iam_policy" "AdministratorAccess" {
+     arn = "arn:aws:iam::aws:policy/AdministratorAccess"
+ }
 
 # resource "aws_iam_user_policy" "backup_user" {
 #   name   = "backup-user"
