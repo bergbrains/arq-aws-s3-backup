@@ -38,7 +38,7 @@ No requirements.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| backup\_bucket\_name | Arq Backup Bucket | `string` | `"com.bergbrains-arq-backup"` | no |
+| backup\_bucket\_name | Arq backup bucket name | `string` | n/a | yes |
 
 ## Outputs
 
