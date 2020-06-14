@@ -44,8 +44,8 @@ No requirements.
 
 | Name | Description |
 |------|-------------|
-| arq\_user\_aws\_id | n/a |
-| arq\_user\_aws\_secret | n/a |
-| backup\_bucket\_arn | n/a |
-| backup\_bucket\_name | n/a |
+| arq\_user\_aws\_id | Arq backup user AWS API ID |
+| arq\_user\_aws\_secret | Arq backup user AWS API secret token |
+| backup\_bucket\_arn | ARN of S3 bucket created for backups |
+| backup\_bucket\_name | Name of S3 bucket created for backups |
 

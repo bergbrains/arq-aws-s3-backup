@@ -77,23 +77,23 @@ resource "aws_iam_user" "backup_user" {
   tags = local.tags
 }
 
- data "aws_iam_policy_document" "backup_user_policy" {
-   statement {
-     actions = [
-       "s3:*"
-     ]
-     sid    = "GrantBackupUserPermissions"
-     effect = "Allow"
+data "aws_iam_policy_document" "backup_user_policy" {
+  statement {
+    actions = [
+      "s3:*"
+    ]
+    sid    = "GrantBackupUserPermissions"
+    effect = "Allow"
 
-     resources = [
-       "${module.backup_bucket.this_s3_bucket_id}/*"
-     ]
-   }
- }
+    resources = [
+      "${module.backup_bucket.this_s3_bucket_id}/*"
+    ]
+  }
+}
 
- data "aws_iam_policy" "AdministratorAccess" {
-     arn = "arn:aws:iam::aws:policy/AdministratorAccess"
- }
+data "aws_iam_policy" "AdministratorAccess" {
+  arn = "arn:aws:iam::aws:policy/AdministratorAccess"
+}
 
 # resource "aws_iam_user_policy" "backup_user" {
 #   name   = "backup-user"
@@ -103,10 +103,10 @@ resource "aws_iam_user" "backup_user" {
 
 resource "aws_iam_user_policy_attachment" "backup_user_admin" {
   policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
-  user = aws_iam_user.backup_user.name
+  user       = aws_iam_user.backup_user.name
 }
 
 resource "aws_iam_access_key" "arq_backup" {
- user = aws_iam_user.backup_user.name
+  user = aws_iam_user.backup_user.name
 }
 
