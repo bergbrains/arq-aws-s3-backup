@@ -13,7 +13,7 @@
  *
  * ```hcl
  * module "arc_backup" {
- *   source "..."
+ *   source "ithub.com/bergbrains/terraform-aws-arq-s3-backup"
  *   backup_bucket_name = "my_arq_backup"
  * }
  * ```
